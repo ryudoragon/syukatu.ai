@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
-import { Home, Building2, Mail, Map, Settings, Moon, Sun, Menu, X, CheckSquare } from 'lucide-react'
+import { Home, Building2, Mail, Map, Settings, Moon, Sun, Menu, X, CheckSquare, LogOut, User, Scale } from 'lucide-react'
 import './App.css'
 
 // Pages
@@ -17,9 +17,13 @@ import { ThemeProvider, useTheme } from './contexts/ThemeContext'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { DataProvider } from './contexts/DataContext'
 
+// Components
+import { TextLogo } from './components/Logo'
+
 function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(false)
   const { theme, toggleTheme } = useTheme()
+  const { logout, currentUser } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -43,8 +47,8 @@ function Sidebar() {
       <div className="flex flex-col h-full py-4">
         {/* Logo/Title */}
         <div className="px-4 mb-8 flex items-center justify-center">
-          <div className={`font-bold text-sidebar-foreground transition-opacity ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
-            就活管理
+          <div className="flex items-center gap-3">
+            <TextLogo className={`transition-opacity ${isExpanded ? 'opacity-100' : 'opacity-0'}`} />
           </div>
         </div>
 
@@ -76,8 +80,24 @@ function Sidebar() {
           })}
         </nav>
 
+        {/* User Info */}
+        {currentUser && (
+          <div className="px-2 mb-2">
+            <div className="flex items-center gap-3 px-3 py-2 rounded-lg bg-sidebar-accent/30">
+              <User className="w-5 h-5 flex-shrink-0 text-sidebar-accent-foreground" />
+              <span
+                className={`whitespace-nowrap transition-opacity text-sm font-medium text-sidebar-accent-foreground ${
+                  isExpanded ? 'opacity-100' : 'opacity-0 w-0'
+                }`}
+              >
+                {currentUser.username}
+              </span>
+            </div>
+          </div>
+        )}
+
         {/* Theme Toggle */}
-        <div className="px-2 mt-auto">
+        <div className="px-2 mb-2">
           <button
             onClick={toggleTheme}
             className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent/50 transition-all"
@@ -93,6 +113,23 @@ function Sidebar() {
               }`}
             >
               {theme === 'dark' ? 'ライト' : 'ダーク'}
+            </span>
+          </button>
+        </div>
+
+        {/* Logout */}
+        <div className="px-2">
+          <button
+            onClick={logout}
+            className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sidebar-foreground hover:bg-red-500/20 hover:text-red-400 transition-all"
+          >
+            <LogOut className="w-5 h-5 flex-shrink-0" />
+            <span
+              className={`whitespace-nowrap transition-opacity ${
+                isExpanded ? 'opacity-100' : 'opacity-0 w-0'
+              }`}
+            >
+              ログアウト
             </span>
           </button>
         </div>

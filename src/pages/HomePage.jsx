@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useData } from '../contexts/DataContext'
 import { Search, Calendar, CheckSquare, Smile, Meh, Frown, TrendingDown, Plus, X, Edit2, Trash2, ChevronLeft, ChevronRight, ClipboardList } from 'lucide-react'
+import { TextLogo } from '../components/Logo'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -203,11 +204,16 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background p-8">
-
       {/* Main Content */}
       <div className="max-w-6xl mx-auto">
         {/* Search Bar - Google-like centered */}
         <div className="flex flex-col items-center justify-center min-h-[40vh]">
+          {/* Header with Logo positioned above the title */}
+          <div className="mb-4 text-center">
+            <div className="font-bold text-black dark:text-white text-2xl mb-2">
+              法律問題研究部
+            </div>
+          </div>
           <h1 className="text-3xl md:text-5xl font-bold mb-8 text-center">就活タスク管理</h1>
           <div className="w-full max-w-2xl relative px-4">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
